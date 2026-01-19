@@ -1,7 +1,8 @@
-use std::io;
-use crate::calculator::{Calculations, Calculator};
-
 mod calculator;
+mod input;
+
+use std::io;
+use crate::{calculator::{Calculations, Calculator}, input::get_number};
 
 fn main() {
     greetings();
