@@ -16,6 +16,15 @@ pub fn get_number(promt: &str) -> f64 {
     input_user
 }
 
+pub fn get_input_number(promt: &str) -> Result<f64, String> {
+    print!("{}", promt);
+    let mut input_user = String::new();
+    io::stdout().flush().expect("Ошибка высвобождения буфера"); // Сброс буфера вывода
+    io::stdin().read_line(&mut input_user).expect("Error input user...");
+    
+    input_user.trim().parse::<f64>().map_err(|_| format!("Error number {}", input_user.trim()))
+}
+
 /*
 Функкция обработки ввода пользорвателя для возврата оператора вычисления в виде char.
 На вход принимает &str - текст сообщающий о необходимости выполнения операции ввода
