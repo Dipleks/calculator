@@ -31,13 +31,14 @@ pub fn get_input_number(prom: &str) -> Result<f64, String> {
 Функкция обработки ввода пользорвателя для возврата оператора вычисления в виде char.
 На вход принимает &str - текст сообщающий о необходимости выполнения операции ввода
 */
-pub fn get_operator(promt: &str) -> char {
-    print!("{}", promt);
+pub fn get_input_operator(prom: &str) -> Result<char, String> {
+    print!("{}", prom);
     let mut input_user = String::new();
     io::stdout().flush().expect("Ошибка высвобождения буфера"); // Сброс буфера вывода
     io::stdin().read_line(&mut input_user).expect("Error input user...");
-
-    // Обработать ошибку ввода, если значение не является числом
-    let input_user: char = input_user.trim().parse().expect("Error parse input...");
-    input_user
+    let operator = input_user.trim().parse::<char>();
+    match operator {
+        Ok(oper) => Ok(oper),
+        Err(err) => Err(format!("Ошибка ввода, {} не является знаком операции! {}", input_user.trim(), err))
+    }
 }
