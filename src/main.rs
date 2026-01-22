@@ -1,16 +1,39 @@
 mod calculator;
 mod input;
 
-use crate::{calculator::{Calculations, Calculator}, input::{get_number, get_operator}};
+use crate::{calculator::{Calculations, Calculator}, input::{get_input_number, get_operator}};
 
 fn main() {
     greetings();
     loop {
-        let first_number: f64 = get_number("Введите первое число (пример ввода - 0 или 0.0) или exit - для выхода: ");
-        let operation: char = get_operator("Введите операцию (+, -, *, /): ");
-        let second_number: f64 = get_number("Введите второе число (пример ввода - 0 или 0.0): ");
+        let prom_first = "Введите первое число: ";
+        let prom_second = "Введите второе число: ";
         
-        let calculator = Calculator { first_number, operation, second_number };
+        let first = match get_input_number(prom_first) {
+            Ok(num) => num,
+            Err(e) => {
+                if e.contains("exit") {
+                    break;
+                }
+                println!("{}", e);
+                println!("Не корретный ввод! Введите число, пример ввода - 0 или 0.0");
+                continue;
+            }
+        };
+        let operation: char = get_operator("Введите операцию (+, -, *, /): ");
+        
+        let second = match get_input_number(prom_second) {
+            Ok(num) => num,
+            Err(e) => {
+                if e.contains("exit") {
+                    break;
+                }
+                println!("{}", e);
+                println!("Не корретный ввод! Введите число, пример ввода - 0 или 0.0");
+                continue;
+            }
+        };
+        let calculator = Calculator { first_number: first, operation, second_number: second };
         calculator.calculate();
     }
 }

@@ -5,17 +5,6 @@ use std::io::{self, Write}; // Write - добавляем для возможн�
 числового значения в виде f64. 
 На вход принимает &str - текст сообщающий о необходимости выполнения операции ввода
 */
-pub fn get_number(promt: &str) -> f64 {
-    print!("{}", promt);
-    let mut input_user = String::new();
-    io::stdout().flush().expect("Ошибка высвобождения буфера"); // Сброс буфера вывода
-    io::stdin().read_line(&mut input_user).expect("Error input user...");
-
-    // Обработать ошибку ввода, если значение не является числом
-    let input_user: f64 = input_user.trim().parse().expect("Error parse input...");
-    input_user
-}
-
 pub fn get_input_number(prom: &str) -> Result<f64, String> {
     print!("{}", prom);
     let mut input_user = String::new();
@@ -23,13 +12,14 @@ pub fn get_input_number(prom: &str) -> Result<f64, String> {
     // stdout().flush() - Сброс буфера вывода
     io::stdout().flush().expect("Ошибка высвобождения буфера");
     io::stdin().read_line(&mut input_user).expect("Error input user...");
-
+    
     // Создаем новую переменную типа Result и присваеваем ей input_user
     let input_number = input_user.trim().parse::<f64>();
     match input_number {
         Ok(number) => Ok(number),
         Err(err) => {
-            /* Тк input_user остался у нас строкой мы можем его вывести в ошибку!
+            /* 
+                Тк input_user остался у нас строкой мы можем его вывести в ошибку!
                 макрос format! делает тоже самое что и println!, но вместо вывода возращает сторку!
             */
             Err(format!("Ошибка ввода, {} не является числом! {}", input_user.trim(), err))
