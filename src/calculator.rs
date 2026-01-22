@@ -58,26 +58,27 @@ impl Calculations for Calculator {
 
 pub fn process_calculation() {
     loop {
-        let prom_first = "Введите первое число: ";
-        let prom_operator = "Введите операцию (+, -, *, /): ";
-        let prom_second = "Введите второе число: ";
+        const PROM_FIRST: &str = "Введите первое число: ";
+        const PROM_OPERATOR: &str = "Введите операцию (+, -, *, /): ";
+        const PROM_SECOND: &str = "Введите второе число: ";
+        const EXIT_MESSAGE: &str = "Завершение работы...";
         
-        let first = match get_input_number(prom_first) {
+        let first = match get_input_number(PROM_FIRST) {
             Ok(num) => num,
             Err(message) => {
                 if message.contains("exit") {
-                    break println!("Завершение работы...");
+                    break println!("{}", EXIT_MESSAGE);
                 }
                 println!("{}", message);
                 println!("Не корретный ввод! Введите число, пример ввода - 0 или 0.0");
                 continue;
             }
         };
-        let operator: char = match get_input_operator(prom_operator) {
+        let operator: char = match get_input_operator(PROM_OPERATOR) {
             Ok(ch) => ch,
             Err(message) => {
                 if message.contains("exit") {
-                    break println!("Завершение работы...");
+                    break println!("{}", EXIT_MESSAGE);
                 }
                 println!("{}", message);
                 println!("Не корретный ввод! Введите операцию, пример ввода - +, -, *, /");
@@ -85,18 +86,17 @@ pub fn process_calculation() {
             }
         };
         
-        let second = match get_input_number(prom_second) {
+        let second = match get_input_number(PROM_SECOND) {
             Ok(num) => num,
             Err(message) => {
                 if message.contains("exit") {
-                    break println!("Завершение работы...");
+                    break println!("{}", EXIT_MESSAGE);
                 }
                 println!("{}", message);
                 println!("Не корретный ввод! Введите число, пример ввода - 0 или 0.0");
                 continue;
             }
         };
-        let calculator = Calculator::new(first, operator, second);
-        calculator.calculate();
+        Calculator::new(first, operator, second).calculate();
     }
 }
